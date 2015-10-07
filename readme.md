@@ -17,24 +17,15 @@ sudo apt-get install mysql-server php5-fpm php5-imagick php5-mysqlnd nginx nginx
 sudo update-rc.d remove apache2
 ```
 
-## Configure PHP5-FPM
+
+## Install Omeka
 
 ```
-sudo cp php5-fpm/php.ini /etc/php5/fpm/
-sudo php5-fpm restart
+sudo ln -s /home/ubuntu/plagmada-archives/omeka /var/www/omeka
+sudo chown -R ubuntu.www-data omeka
+sudo chmod -R ug+rw omeka
 ```
 
-## Configure Nginx
-
-```
-sudo rm -f /etc/nginx/sites-enabled/default
-
-sudo cp nginx/omeka.plagmada.org /etc/nginx/sites-available/
-
-sudo ln -s /etc/nginx/sites-available/omeka.plagmada.org /etc/nginx/sites-enabled/omeka.plagmada.org
-
-sudo service nginx restart
-```
 
 ## Create Omeka Database
 
@@ -52,12 +43,24 @@ CREATE USER 'omeka'@'localhost' IDENTIFIED BY 'examplepass';
 GRANT ALL ON omeka.* to 'omeka'@'localhost';
 ```
 
-## Install Omeka
+
+## Configure PHP5-FPM
 
 ```
-ln -s /home/ubuntu/plagmada-archives/omeka /var/www/omeka
-sudo chown -R ubuntu.www-data omeka
-sudo chmod -R ug+rw omeka
+sudo cp php5-fpm/php.ini /etc/php5/fpm/
+sudo php5-fpm restart
+```
+
+## Configure Nginx
+
+```
+sudo rm -f /etc/nginx/sites-enabled/default
+
+sudo cp nginx/omeka.plagmada.org /etc/nginx/sites-available/
+
+sudo ln -s /etc/nginx/sites-available/omeka.plagmada.org /etc/nginx/sites-enabled/omeka.plagmada.org
+
+sudo service nginx restart
 ```
 
 Now go to http://omeka.plagmada.org/install/install.php and follow the instructions.
