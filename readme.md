@@ -8,7 +8,7 @@ This repository contains the Omeka source and surrounding configurations used by
 
 ```
 sudo apt-get update
-sudo apt-get install mysql-server php5-fpm php5-imagick php5-mysqlnd nginx nginx-extras
+sudo apt-get install mysql-server php5-fpm php5-imagick php5-mysqlnd nginx nginx-extras imagemagick
 ```
 
 ## Cleanup
