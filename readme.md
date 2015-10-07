@@ -41,7 +41,8 @@ Modify the file omeka/db.ini to match the MySQL credentials set up above.
 ```
 sudo ln -s /home/ubuntu/plagmada-archives/omeka /var/www/omeka
 sudo chown -R ubuntu.www-data omeka
-sudo chmod -R ug+rw omeka
+sudo chmod -R go-w omeka
+sudo chmod -R ug+rw omeka/files
 sudo chmod o-rwx omeka/db.ini
 ```
 
