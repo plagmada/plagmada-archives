@@ -18,15 +18,6 @@ sudo update-rc.d remove apache2
 ```
 
 
-## Install Omeka
-
-```
-sudo ln -s /home/ubuntu/plagmada-archives/omeka /var/www/omeka
-sudo chown -R ubuntu.www-data omeka
-sudo chmod -R ug+rw omeka
-```
-
-
 ## Create Omeka Database
 
 Log into the database as root:
@@ -41,6 +32,17 @@ Create the database and grant privileges. *IMPORTANT:* replace 'examplepass' wit
 CREATE DATABASE omeka;
 CREATE USER 'omeka'@'localhost' IDENTIFIED BY 'examplepass';
 GRANT ALL ON omeka.* to 'omeka'@'localhost';
+```
+
+## Install Omeka
+
+Modify the file omeka/db.ini to match the MySQL credentials set up above.
+
+```
+sudo ln -s /home/ubuntu/plagmada-archives/omeka /var/www/omeka
+sudo chown -R ubuntu.www-data omeka
+sudo chmod -R ug+rw omeka
+sudo chmod o-rwx omeka/db.ini
 ```
 
 
