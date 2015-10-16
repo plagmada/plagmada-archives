@@ -18,6 +18,7 @@ sudo update-rc.d remove apache2
 sudo service apache2 stop
 ```
 
+NOTE: This no longer appears to be necessary.
 
 ## Create Omeka Database
 
@@ -27,12 +28,19 @@ Log into the database as root:
 mysql -u root -p
 ```
 
-Create the database and grant privileges. *IMPORTANT:* replace 'examplepass' with a good password!:
+Create the database and grant privileges. *IMPORTANT:* (Replace SQL_INJECTION below with a really good password!)
 
 ```
 CREATE DATABASE omeka;
-CREATE USER 'omeka'@'localhost' IDENTIFIED BY 'examplepass';
+CREATE USER 'omeka'@'localhost';
+SET PASSWORD FOR 'omeka'@'localhost' = PASSWORD("SQL_INJECTION");
 GRANT ALL ON omeka.* to 'omeka'@'localhost';
+```
+
+Test database creation by trying to log in:
+
+```
+mysql -u omeka -p
 ```
 
 ## Install Omeka
