@@ -28,12 +28,12 @@ Log into the database as root:
 mysql -u root -p
 ```
 
-Create the database and grant privileges. *IMPORTANT:* (Replace SQL_INJECTION below with a really good password!)
+Create the database and grant privileges. *IMPORTANT:* (Replace SQL_INJECTION below with a really good password surrounded in quotes!)
 
 ```
 CREATE DATABASE omeka;
 CREATE USER 'omeka'@'localhost';
-SET PASSWORD FOR 'omeka'@'localhost' = PASSWORD("SQL_INJECTION");
+SET PASSWORD FOR 'omeka'@'localhost' = PASSWORD(SQL_INJECTION);
 GRANT ALL ON omeka.* to 'omeka'@'localhost';
 ```
 
