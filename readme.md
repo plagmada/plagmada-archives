@@ -4,7 +4,7 @@ This repository contains the Omeka source and surrounding configurations used by
 
 ## Install Required Packages
 
-(Ubuntu 14.04)
+(Ubuntu 15.04)
 
 ```
 sudo apt-get update
