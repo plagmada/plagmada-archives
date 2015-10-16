@@ -67,6 +67,7 @@ sudo chown -R ubuntu.www-data plagmada-archives/omeka-2.3.1
 sudo chmod -R go-w plagmada-archives/omeka-2.3.1
 sudo chmod -R ug+rw plagmada-archives/omeka-2.3.1/files
 sudo chmod o-rwx plagmada-archives/omeka-2.3.1/db.ini
+sudo chown ubuntu.www-data plagmada-archives/omeka-2.3.1/db.ini
 ```
 
 
@@ -90,3 +91,7 @@ sudo service nginx restart
 ```
 
 Now go to http://omeka.plagmada.org/install/install.php and follow the instructions.
+
+## Current issues
+
+* Updating (rsync'ing) requires re-setting of ownership and permission files.
