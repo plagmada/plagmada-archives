@@ -15,6 +15,7 @@ sudo apt-get install mysql-server php5-fpm php5-imagick php5-mysqlnd nginx nginx
 
 ```
 sudo update-rc.d remove apache2
+sudo service apache2 stop
 ```
 
 
