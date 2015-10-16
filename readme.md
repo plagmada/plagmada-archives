@@ -43,9 +43,19 @@ Test database creation by trying to log in:
 mysql -u omeka -p
 ```
 
+## Copy over the PlaGMaDA archive repository
+
+```
+rsync -rptvv plagmada-archives ubuntu@HOSTNAME:~/
+```
+
 ## Install Omeka
 
 Modify the file omeka/db.ini to match the MySQL credentials set up above.
+
+```
+mv /home/ubuntu/plagmada-archives/omeka/db.example.ini /home/ubuntu/plagmada-archives/omeka/db.ini
+```
 
 ```
 sudo ln -s /home/ubuntu/plagmada-archives/omeka /var/www/omeka
