@@ -51,26 +51,30 @@ rsync -rptvv plagmada-archives ubuntu@HOSTNAME:~/
 
 ## Install Omeka
 
-Modify the file omeka/db.ini to match the MySQL credentials set up above.
+Locally, copy the file omeka/db.example.ini to match the MySQL credentials set up above.
 
 ```
-mv /home/ubuntu/plagmada-archives/omeka/db.example.ini /home/ubuntu/plagmada-archives/omeka/db.ini
+mv omeka-2.3.1/db.example.ini omeka-2.3.1/db.ini
+cd ../
+rsync -rptvv plagmada-archives user@plagmadahost:~/
 ```
 
+Remotely (on the EC2 instance):
+
 ```
-sudo ln -s /home/ubuntu/plagmada-archives/omeka /var/www/omeka
-sudo chown -R ubuntu.www-data omeka
-sudo chmod -R go-w omeka
-sudo chmod -R ug+rw omeka/files
-sudo chmod o-rwx omeka/db.ini
+sudo ln -s /home/ubuntu/plagmada-archives/omeka-2.3.1 /var/www/omeka
+sudo chown -R ubuntu.www-data plagmada-archives/omeka-2.3.1
+sudo chmod -R go-w plagmada-archives/omeka-2.3.1
+sudo chmod -R ug+rw plagmada-archives/omeka-2.3.1/files
+sudo chmod o-rwx plagmada-archives/omeka-2.3.1/db.ini
 ```
 
 
 ## Configure PHP5-FPM
 
 ```
-sudo cp php5-fpm/php.ini /etc/php5/fpm/
-sudo php5-fpm restart
+sudo cp plagmada-archives/php5-fpm/php.ini /etc/php5/fpm/
+sudo service php5-fpm restart
 ```
 
 ## Configure Nginx
@@ -78,7 +82,7 @@ sudo php5-fpm restart
 ```
 sudo rm -f /etc/nginx/sites-enabled/default
 
-sudo cp nginx/omeka.plagmada.org /etc/nginx/sites-available/
+sudo cp plagmada-archives/nginx/omeka.plagmada.org /etc/nginx/sites-available/
 
 sudo ln -s /etc/nginx/sites-available/omeka.plagmada.org /etc/nginx/sites-enabled/omeka.plagmada.org
 
