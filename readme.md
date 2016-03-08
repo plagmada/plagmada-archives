@@ -90,7 +90,9 @@ sudo ln -s /etc/nginx/sites-available/omeka.plagmada.org /etc/nginx/sites-enable
 sudo service nginx restart
 ```
 
-Now go to http://omeka.plagmada.org/install/install.php and follow the instructions.
+## Finish installation through browser
+
+Go to http://omeka.plagmada.org/install/install.php and follow the instructions.
 
 NOTE: Subsequent to successful completion of the installation step just above, you should be able to log into Omeka at http://omeka.plagmada.org/admin/users/login
 
