@@ -92,6 +92,8 @@ sudo service nginx restart
 
 Now go to http://omeka.plagmada.org/install/install.php and follow the instructions.
 
+NOTE: Subsequent to successful completion of the installation step just above, you should be able to log into Omeka at http://omeka.plagmada.org/admin/users/login
+
 ## Current issues
 
 * Updating (rsync'ing) requires re-setting of ownership and permission files.
