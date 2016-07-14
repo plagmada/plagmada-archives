@@ -5,6 +5,13 @@ server {
         server_name omeka.plagmada.org;
         root /var/www/omeka;
 
+        gzip    on;
+        gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+
+        access_log  /var/log/nginx/omeka.plagmada.org.access.log combined;
+        error_log   /var/log/nginx/omeka.plagmada.org.error.log error;
+
+
         location = /favicon.ico {
                 log_not_found off;
                 access_log off;
