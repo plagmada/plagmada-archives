@@ -51,10 +51,12 @@ rsync -rptvv plagmada-archives ubuntu@HOSTNAME:~/
 
 ## Install Omeka
 
-Locally, copy the file omeka/db.example.ini to match the MySQL credentials set up above.
+Locally, copy the file `omeka/db.example.ini` to `omeka/db.ini`, and modify to `omeka/db.ini` match the MySQL credentials set up above.
+
+Then, upload the plagmada-archives source to the server.
 
 ```
-mv omeka-2.3.1/db.example.ini omeka-2.3.1/db.ini
+cp omeka-2.3.1/db.example.ini omeka-2.3.1/db.ini
 cd ../
 rsync -rptvv plagmada-archives user@plagmadahost:~/
 ```
@@ -99,3 +101,6 @@ NOTE: Subsequent to successful completion of the installation step just above, y
 ## Current issues
 
 * Updating (rsync'ing) requires re-setting of ownership and permission files.
+
+# Upgrading
+See [Omeka Upgrading Documentation](https://omeka.org/codex/Upgrading)
