@@ -2,7 +2,7 @@
 
 ## Create bucket
 
-* Through the AWS S3 console, create a bucket that will hold uploaded files for the instance (i.e. 'curated_bucket'). 
+* Through the AWS S3 console, create a bucket that will hold uploaded files for the instance (i.e. 'plagmada_staging'). 
 
 * Name the bucket accordingly. For example, for staging server: `plagmada_staging`
 
@@ -55,7 +55,7 @@
 
 ### Install S3FS on the instance app server(s)
 
-Without S3FS, the app server will typically be configured to store upload files on some local directory (usually in `/var/www/omeka/files`).
+Without S3FS, the app server will typically be configured to store upload files on some local directory (usually in `/var/www/omeka/files`, (and /var/www/omeka is a linked directory)).
 
 Now we will use S3FS to mount a FUSE folder that maps to our S3 bucket, and configure the app server to store uploads there.
 
