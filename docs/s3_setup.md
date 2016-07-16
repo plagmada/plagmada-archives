@@ -66,6 +66,6 @@ See the https://github.com/s3fs-fuse/s3fs-fuse/wiki/Installation-Notes
 * Put the S3FS source in /usr/local/src/ on the app server
 * Build according to install notes on the above link
 * Create the directory that will be the mount point for the uploads bucket
-    - e.g. `/var/www/plagmada_staging`
+    - e.g. `/var/www/omeka/files`
     - If the directory already exists, make sure it is empty. Otherwise, rename and replace.
 * Create /etc/passwd-s3fs with the IAM credentials set up previously. Pay attention to the notes on file permissions for /etc/passwd-s3fs at https://github.com/s3fs-fuse/s3fs-fuse/wiki/Fuse-Over-Amazon
