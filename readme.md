@@ -56,7 +56,7 @@ Locally, copy the file `omeka/db.example.ini` to `omeka/db.ini`, and modify to `
 Then, upload the plagmada-archives source to the server.
 
 ```
-cp omeka-2.3.1/db.example.ini omeka-2.3.1/db.ini
+cp omeka-2.4.1/db.example.ini omeka-2.4.1/db.ini
 cd ../
 rsync -rptvv plagmada-archives user@plagmadahost:~/
 ```
@@ -64,12 +64,12 @@ rsync -rptvv plagmada-archives user@plagmadahost:~/
 Remotely (on the EC2 instance):
 
 ```
-sudo ln -s /home/ubuntu/plagmada-archives/omeka-2.3.1 /var/www/omeka
-sudo chown -R ubuntu.www-data plagmada-archives/omeka-2.3.1
-sudo chmod -R go-w plagmada-archives/omeka-2.3.1
-sudo chmod -R ug+rw plagmada-archives/omeka-2.3.1/files
-sudo chmod o-rwx plagmada-archives/omeka-2.3.1/db.ini
-sudo chown ubuntu.www-data plagmada-archives/omeka-2.3.1/db.ini
+sudo ln -s /home/ubuntu/plagmada-archives/omeka-2.4.1 /var/www/omeka
+sudo chown -R ubuntu.www-data plagmada-archives/omeka-2.4.1
+sudo chmod -R go-w plagmada-archives/omeka-2.4.1
+sudo chmod -R ug+rw plagmada-archives/omeka-2.4.1/files
+sudo chmod o-rwx plagmada-archives/omeka-2.4.1/db.ini
+sudo chown ubuntu.www-data plagmada-archives/omeka-2.4.1/db.ini
 ```
 
 
@@ -104,3 +104,8 @@ NOTE: Subsequent to successful completion of the installation step just above, y
 
 # Upgrading
 See [Omeka Upgrading Documentation](https://omeka.org/codex/Upgrading)
+
+# Troubleshooting
+
+* Error logs involving web service and PHP will be at `/var/log/nginx/omeka.plagmada.org.error.log`
+* Error logs for the PHP process manager (php5-fpm) are at `/var/log/php5-fpm.log`
