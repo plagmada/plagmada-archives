@@ -11,6 +11,13 @@ sudo apt-get update
 sudo apt-get install mysql-server php5-fpm php5-imagick php5-mysqlnd nginx nginx-extras imagemagick
 ```
 
+(Ubuntu 16.04, which introduced PHP7)
+
+```
+sudo apt-get update
+sudo apt-get install mysql-server php7.0-fpm php-imagick php7.0-mysqlnd nginx nginx-extras imagemagick
+```
+
 ## Cleanup
 
 ```
