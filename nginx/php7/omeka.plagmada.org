@@ -41,7 +41,8 @@ server {
 
         location ~ \.php$ {
                 fastcgi_split_path_info ^(.+\.php)(/.+)$;
-                #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+                # NOTE: You should have "cgi.fix_pathinfo = 0;" in
+                # /etc/php/7.0/fpm/php.ini
                 include fastcgi_params;
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
                 fastcgi_intercept_errors on;
