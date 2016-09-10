@@ -29,9 +29,22 @@ mysql -u collectiveaccess -p
 
 (Assuming you are in the plagmada-archives folder) Copy the file nginx/collectiveaccess.plagmada.org into the Nginx configuration folder. On Ubuntu, this is typically at /etc/nginx/sites-available. The following lines will do this, and also try to restart nginx with the new configuration:
 
+On Ubuntu 15.04 (assumption):
+
 ```
-cp nginx/php5/collectiveaccess.plagmada.org /etc/nginx/sites-available/collectiveaccess.plagmada.org
-ln -s /etc/nginx/sites-available/collectiveaccess.plagmada.org /etc/nginx/sites-enabled/collectiveaccess.plagmada.org
+sudo cp nginx/php5/collectiveaccess.plagmada.org /etc/nginx/sites-available/collectiveaccess.plagmada.org
+sudo ln -s /etc/nginx/sites-available/collectiveaccess.plagmada.org /etc/nginx/sites-enabled/collectiveaccess.plagmada.org
+sudo ln -s /home/ubuntu/plagmada/plagmada-archives/providence-1.6.1 /var/www/collectiveaccess
+sudo chown -R ubuntu.www-data providence-1.6.1
 sudo service nginx restart
 ```
 
+On Ubuntu 16.04
+
+```
+sudo cp nginx/php5/collectiveaccess.plagmada.org /etc/nginx/sites-available/collectiveaccess.plagmada.org
+sudo ln -s /etc/nginx/sites-available/collectiveaccess.plagmada.org /etc/nginx/sites-enabled/collectiveaccess.plagmada.org
+sudo mv /home/ubuntu/plagmada/plagmada-archives/providence-1.6.1 /var/www/collectiveaccess
+sudo chown -R ubuntu.www-data /var/www/collectiveaccess
+sudo service nginx restart
+```

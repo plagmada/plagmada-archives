@@ -1,0 +1,1 @@
+[MARTIN FJORDVALD](https://blog.martinfjordvald.com/2011/01/no-input-file-specified-with-php-and-nginx/)

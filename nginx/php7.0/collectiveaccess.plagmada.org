@@ -5,6 +5,8 @@ server {
         server_name collectiveaccess.plagmada.org;
         root /var/www/collectiveaccess;
 
+        disable_symlinks off;
+
         gzip    on;
         gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
 
@@ -51,12 +53,9 @@ server {
         }
 
         location /install {
+                include fastcgi_params;
                 try_files $uri /install/index.php?$args;
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 
-                # This is an odd way to check that rewrites work...
-                #location ~* /install/check-mod-rewrite([^/]*)\.html$ {
-                #        rewrite ^ /install/mod-rewrite.php?enabled=true;
-                #}
         }
 }
