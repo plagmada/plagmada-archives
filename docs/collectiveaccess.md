@@ -27,3 +27,11 @@ Test database creation by trying to log in:
 mysql -u collectiveaccess -p
 ```
 
+(Assuming you are in the plagmada-archives folder) Copy the file nginx/collectiveaccess.plagmada.org into the Nginx configuration folder. On Ubuntu, this is typically at /etc/nginx/sites-available. The following lines will do this, and also try to restart nginx with the new configuration:
+
+```
+cp nginx/php5/collectiveaccess.plagmada.org /etc/nginx/sites-available/collectiveaccess.plagmada.org
+ln -s /etc/nginx/sites-available/collectiveaccess.plagmada.org /etc/nginx/sites-enabled/collectiveaccess.plagmada.org
+sudo service nginx restart
+```
+

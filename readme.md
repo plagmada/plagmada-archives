@@ -1,6 +1,12 @@
-This repository contains the Omeka source and surrounding configurations used by the plagmada.org archives.
+This repository contains the Omeka and CollectiveAccess source and surrounding configurations used by the plagmada.org archives.
 
-# Installation
+Omeka is [here on GitHub](https://github.com/omeka/Omeka)
+
+CollectiveAccess's Providence is [here on GitHub](https://github.com/collectiveaccess/providence)
+
+CollectiveAccess's Pawtucket2 is [here on GitHub](https://github.com/collectiveaccess/pawtucket2)
+
+# Base Installation
 
 ## Base Server Packages
 
@@ -28,6 +34,8 @@ sudo service apache2 stop
 ```
 
 NOTE: This no longer appears to be necessary.
+
+# Proceed
 
 For Omeka instructions, read docs/omeka.md
 

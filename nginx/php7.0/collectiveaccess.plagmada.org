@@ -55,8 +55,8 @@ server {
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
 
                 # This is an odd way to check that rewrites work...
-                location ~* /install/check-mod-rewrite([^/]*)\.html$ {
-                        rewrite ^ /install/mod-rewrite.php?enabled=true;
-                }
+                #location ~* /install/check-mod-rewrite([^/]*)\.html$ {
+                #        rewrite ^ /install/mod-rewrite.php?enabled=true;
+                #}
         }
 }
