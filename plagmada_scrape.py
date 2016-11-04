@@ -21,9 +21,12 @@ for galleryItem in galleryList:
 	album_notes.append(galleryItem.find('p', class_="giDescription"))
 	album_size.append(galleryItem.find('div', class_="size summary"))
 
-# This will iterate through each album page.  Ultimately, it will then iterate through each item page for the album.
+# The for loop below will iterate through each album page.  Ultimately, it will then iterate through each item page for the album.
 # Currently, it is grabbing the H2 header from the first page of the album and using regex to create a cromulent
 # directory name for each album.  
+#
+# The loop is also grabbing metadata for each album that is shown on the main gallery page.
+# This is what album_notes[] and album_size[] are for.  
 #
 # g2_ItemID refers to the php tag that is used in page links.  g2_* is used throughout the Gallery2 markup.
 # I'll try to use the spefiic tag from there when appropriate.
@@ -42,7 +45,12 @@ for i in range(0,len(album)):
 	print(album_directory)
 	if album_notes[i]:
 		print(album_notes[i].text.strip())
-	print(album_size[i])
+	else:
+		print("NO NOTES")
+	if album_size[i]:
+		print(album_size[i].text.strip())
+	else:
+		print("Size: EMPTY")
 	print("---")
 
 # Just checking the functionality...
