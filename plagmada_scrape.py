@@ -65,9 +65,34 @@ def parseAlbum( onePage ):
 				print("   <--- BACK TO REALITY")
 		else:
 			print("Size: EMPTY")
+
+		parseItem(alSoup)
 		print("---")
 
+def parseItem( oneItem ):
+	speck=[]
+	itemList = oneItem.findAll("td", {"class":"giItemCell"})
+	for itemSpeck in itemList:
+		speck.append(itemSpeck.a.get('href'))
+		
+	for i in range(0,len(speck)):
+		g2_ItemId = speck[i].split('&')
+		item_page = urlopen ("http://plagmada.org/gallery/{0}".format(g2_ItemId[0]))
+		itSoup = BeautifulSoup(item_page.read(), "html.parser")
+
+		# Get Name
+		item_name = itSoup.h2.get_text().strip()
+		print(item_name)
+
+		#get date
+		item_date = itSoup.findAll("div", {"class":"date summary"})
+		print(item_date[0].get_text().strip())
+
+		#get largest size
+		#get largest image
+
 parseAlbum(mainSoup)
+	
 
 # Just checking the functionality...
 # os.mkdir("test")
