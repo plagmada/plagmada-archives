@@ -65,8 +65,20 @@ def parseAlbum( onePage ):
 				print("   <--- BACK TO REALITY")
 		else:
 			print("Size: EMPTY")
+		
+		# Before we enter the parseItem function, we want to know how many item pages exist for
+		# a particular album.  That way, we can collect the images and data from each.
+		#parseItem(alSoup)
 
-		parseItem(alSoup)
+		itemPages=[]	
+		pageCounter=[]
+		blockCorePager = alSoup.findAll("div", {"class":"block-core-Pager"})	
+		#pageCounter = blockCorePager.findAll("a")
+		#itemPages = pageCounter.a.get("href")
+		#print("HERE ARE itemPages! --->v")
+		#print(itemPages)
+		
+
 		print("---")
 
 def parseItem( oneItem ):
