@@ -71,13 +71,17 @@ def parseAlbum( onePage ):
 		#parseItem(alSoup)
 
 		itemPages=[]	
-		pageCounter=[]
+		pageLinks=[]
 		blockCorePager = alSoup.findAll("div", {"class":"block-core-Pager"})	
-		#pageCounter = blockCorePager.findAll("a")
-		#itemPages = pageCounter.a.get("href")
-		#print("HERE ARE itemPages! --->v")
-		#print(itemPages)
-		
+		if blockCorePager:
+			pageLinks = blockCorePager[0].findAll("a")
+			if pageLinks:
+				pageCount = pageLinks[-1].text
+				print("Page Count is ",format(pageCount))
+			else:
+				print("ONLY ONE PAGE IN THIS GALLERY")
+		else:
+			print("EMPTY PAGE")
 
 		print("---")
 
