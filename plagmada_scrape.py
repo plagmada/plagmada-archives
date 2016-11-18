@@ -35,13 +35,13 @@ def parseAlbum( onePage ):
 	# In the loop below, we are grabbing the H2 header from the current album page and using regex to create a cromulent
 	# directory name for each album.  
 	#
-	# g2_ItemID refers to the php tag that is used in page links.  g2_* is used throughout the Gallery2 markup.
+	# main_g2_ItemID refers to the php tag that is used in page links.  g2_* is used throughout the Gallery2 markup.
 	# I'll try to use the specific tag from there when appropriate.
 
 	for i in range(0,len(album)):
 		print("i Loop position is {0}".format(i))
-		g2_itemId = album[i].split('&')
-		album_page = urlopen ("http://plagmada.org/gallery/{0}".format(g2_itemId[0]))
+		main_g2_itemId = album[i].split('&')
+		album_page = urlopen ("http://plagmada.org/gallery/{0}".format(main_g2_itemId[0]))
 		alSoup = BeautifulSoup(album_page.read(), "html.parser")
 	
 		# Album Titles Made Cromulent for Filesystem Use
@@ -68,22 +68,34 @@ def parseAlbum( onePage ):
 		
 		# Before we enter the parseItem function, we want to know how many item pages exist for
 		# a particular album.  That way, we can collect the images and data from each.
-		#parseItem(alSoup)
+		# the g2_page for-loop collects each of the item pages and then runs parseItem on them.
+		# the g2_ItemId[] list is also used here to stay in the correct gallery
 
-		itemPages=[]	
 		pageLinks=[]
 		blockCorePager = alSoup.findAll("div", {"class":"block-core-Pager"})	
 		if blockCorePager:
+			g2_itemId = main_g2_itemId[0].split('=')
 			pageLinks = blockCorePager[0].findAll("a")
 			if pageLinks:
-				pageCount = pageLinks[-1].text
-				print("Page Count is ",format(pageCount))
+				pageCount = pageLinks[-1].text.strip()
+				for g2_page in range(1,int(pageCount)):
+					current_page = urlopen ("http://plagmada.org/gallery/main.php?g2_itemId={0}&g2_page={1}".format(g2_itemId[1],g2_page)) 	
+					pageSoup = BeautifulSoup(current_page.read(), "html.parser")
+					#print("Spiffy sez:")
+					#print(pageSoup.h2)
+					parseItem( pageSoup )
 			else:
 				print("ONLY ONE PAGE IN THIS GALLERY")
+				one_page = urlopen ("http://plagmada.org/gallery/main.php?g2_itemId={0}&g2_page=1".format(g2_itemId[1]))
+				oneSoup = BeautifulSoup(one_page.read(), "html.parser")
+				parseItem( oneSoup )
 		else:
 			print("EMPTY PAGE")
 
 		print("---")
+
+# The parseItem function reads a page of links to individual gallery objects, i.e. individual scans.  It then collects the desired metadata and
+# the highest resolution version of the image and saves it locally.
 
 def parseItem( oneItem ):
 	speck=[]
@@ -92,8 +104,8 @@ def parseItem( oneItem ):
 		speck.append(itemSpeck.a.get('href'))
 		
 	for i in range(0,len(speck)):
-		g2_ItemId = speck[i].split('&')
-		item_page = urlopen ("http://plagmada.org/gallery/{0}".format(g2_ItemId[0]))
+		main_g2_itemId = speck[i].split('&')
+		item_page = urlopen ("http://plagmada.org/gallery/{0}".format(main_g2_itemId[0]))
 		itSoup = BeautifulSoup(item_page.read(), "html.parser")
 
 		# Get Name
@@ -107,7 +119,7 @@ def parseItem( oneItem ):
 		#get largest size
 		#get largest image
 
-parseAlbum(mainSoup)
+parseAlbum( mainSoup )
 	
 
 # Just checking the functionality...
