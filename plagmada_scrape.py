@@ -111,13 +111,27 @@ def parseItem( oneItem ):
 		# Get Name
 		item_name = itSoup.h2.get_text().strip()
 		print(item_name)
+		
+		# Get Detailed Description
 
 		#get date
 		item_date = itSoup.findAll("div", {"class":"date summary"})
 		print(item_date[0].get_text().strip())
 
 		#get largest size
+		sizeBlock = itSoup.findAll("div", {"class":"block-core-PhotoSizes giInfo"})
+		largestSize = sizeBlock[0].get_text().strip().split(" ")
+		print(largestSize[-1])
+
 		#get largest image
+		#Each image has its own itemId number.  This isn't available on the default page, though, because Gallery2 is a 
+		#dumpster fire in some ways.  Maybe it's just +1 to the main itemId number, but I'm not going to count on that
+		#so I need to hop over to the page that displays the highest resolution image and grab the link to it from there.
+		#KHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN!!
+
+		highres_page = urlopen ("http://plagmada.org/gallery/{0}&g2_imageViewsIndex=1".format(main_g2_itemId[0]))
+		highresSoup = BeautifulSoup(highres_page.read(), "html.parser")
+		# And then we'll grab the image...	
 
 parseAlbum( mainSoup )
 	
