@@ -76,14 +76,16 @@ def parseAlbum( onePage ):
 		if blockCorePager:
 			g2_itemId = main_g2_itemId[0].split('=')
 			pageLinks = blockCorePager[0].findAll("a")
+			print("---\\---")
 			if pageLinks:
 				pageCount = pageLinks[-1].text.strip()
-				for g2_page in range(1,int(pageCount)):
+				print("pageCount: {0}".format(int(pageCount)))
+				for g2_page in range(1,(int(pageCount)+1)):
+					print("g2_page: {0} ".format(g2_page))
 					current_page = urlopen ("http://plagmada.org/gallery/main.php?g2_itemId={0}&g2_page={1}".format(g2_itemId[1],g2_page)) 	
 					pageSoup = BeautifulSoup(current_page.read(), "html.parser")
-					#print("Spiffy sez:")
-					#print(pageSoup.h2)
 					parseItem( pageSoup )
+					print("HELLO!")
 			else:
 				print("ONLY ONE PAGE IN THIS GALLERY")
 				one_page = urlopen ("http://plagmada.org/gallery/main.php?g2_itemId={0}&g2_page=1".format(g2_itemId[1]))
@@ -92,17 +94,24 @@ def parseAlbum( onePage ):
 		else:
 			print("EMPTY PAGE")
 
-		print("---")
+		print("---||---")
 
 # The parseItem function reads a page of links to individual gallery objects, i.e. individual scans.  It then collects the desired metadata and
 # the highest resolution version of the image and saves it locally.
 
 def parseItem( oneItem ):
+	print("Made it this far")
 	speck=[]
 	itemList = oneItem.findAll("td", {"class":"giItemCell"})
+	galleryDescription = oneItem.findAll("p", {"class":"giDescription"})
 	for itemSpeck in itemList:
 		speck.append(itemSpeck.a.get('href'))
 		
+	if galleryDescription:	
+		print(galleryDescription[0].get_text().strip())
+	else:
+		print("NO DESCRIPTION")
+	
 	for i in range(0,len(speck)):
 		main_g2_itemId = speck[i].split('&')
 		item_page = urlopen ("http://plagmada.org/gallery/{0}".format(main_g2_itemId[0]))
@@ -112,7 +121,12 @@ def parseItem( oneItem ):
 		item_name = itSoup.h2.get_text().strip()
 		print(item_name)
 		
-		# Get Detailed Description
+		# Get Detailed Description (if any)
+		itemDescription = itSoup.findAll("p", {"class":"giDescription"})
+		if itemDescription:
+			print(itemDescription[0].get_text().strip())	
+		else:
+			print("NO ITEM DESCRIPTION")
 
 		#get date
 		item_date = itSoup.findAll("div", {"class":"date summary"})
@@ -121,7 +135,7 @@ def parseItem( oneItem ):
 		#get largest size
 		sizeBlock = itSoup.findAll("div", {"class":"block-core-PhotoSizes giInfo"})
 		largestSize = sizeBlock[0].get_text().strip().split(" ")
-		print(largestSize[-1])
+		print(largestSize[-1].strip())
 
 		#get largest image
 		#Each image has its own itemId number.  This isn't available on the default page, though, because Gallery2 is a 
@@ -132,6 +146,8 @@ def parseItem( oneItem ):
 		highres_page = urlopen ("http://plagmada.org/gallery/{0}&g2_imageViewsIndex=1".format(main_g2_itemId[0]))
 		highresSoup = BeautifulSoup(highres_page.read(), "html.parser")
 		# And then we'll grab the image...	
+
+		print("---//---")
 
 parseAlbum( mainSoup )
 	
