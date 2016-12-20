@@ -1,14 +1,10 @@
 from urllib.request import urlopen
 from urllib.error import HTTPError
+from functools import wraps
 from bs4 import BeautifulSoup
+import time
 import os
 import re
-
-
-# Initiating the Scrape from the top level PlaGMaDA album page
-
-PlaGMaDA = urlopen("http://plagmada.org/gallery/main.php")
-mainSoup = BeautifulSoup(PlaGMaDA.read(), "html.parser")
 
 # Defining an album scraping function.
 # --
@@ -41,7 +37,7 @@ def parseAlbum( onePage ):
 	for i in range(0,len(album)):
 		print("i Loop position is {0}".format(i))
 		main_g2_itemId = album[i].split('&')
-		album_page = urlopen ("http://plagmada.org/gallery/{0}".format(main_g2_itemId[0]))
+		album_page = urlopen_with_retry ("http://plagmada.org/gallery/{0}".format(main_g2_itemId[0]))
 		alSoup = BeautifulSoup(album_page.read(), "html.parser")
 	
 		# Album Titles Made Cromulent for Filesystem Use
@@ -62,7 +58,7 @@ def parseAlbum( onePage ):
 				album_items[3] = re.sub(r'\(',"",album_items[3])
 				print("---> ALBUMCEPTION DETECTED <---")
 				parseAlbum(alSoup)
-				print("   <--- BACK TO REALITY")
+				print("	<--- BACK TO REALITY")
 		else:
 			print("Size: EMPTY")
 		
@@ -82,13 +78,13 @@ def parseAlbum( onePage ):
 				print("pageCount: {0}".format(int(pageCount)))
 				for g2_page in range(1,(int(pageCount)+1)):
 					print("g2_page: {0} ".format(g2_page))
-					current_page = urlopen ("http://plagmada.org/gallery/main.php?g2_itemId={0}&g2_page={1}".format(g2_itemId[1],g2_page)) 	
+					current_page = urlopen_with_retry ("http://plagmada.org/gallery/main.php?g2_itemId={0}&g2_page={1}".format(g2_itemId[1],g2_page)) 	
 					pageSoup = BeautifulSoup(current_page.read(), "html.parser")
 					parseItem( pageSoup )
 					print("HELLO!")
 			else:
 				print("ONLY ONE PAGE IN THIS GALLERY")
-				one_page = urlopen ("http://plagmada.org/gallery/main.php?g2_itemId={0}&g2_page=1".format(g2_itemId[1]))
+				one_page = urlopen_with_retry ("http://plagmada.org/gallery/main.php?g2_itemId={0}&g2_page=1".format(g2_itemId[1]))
 				oneSoup = BeautifulSoup(one_page.read(), "html.parser")
 				parseItem( oneSoup )
 		else:
@@ -114,7 +110,7 @@ def parseItem( oneItem ):
 	
 	for i in range(0,len(speck)):
 		main_g2_itemId = speck[i].split('&')
-		item_page = urlopen ("http://plagmada.org/gallery/{0}".format(main_g2_itemId[0]))
+		item_page = urlopen_with_retry ("http://plagmada.org/gallery/{0}".format(main_g2_itemId[0]))
 		itSoup = BeautifulSoup(item_page.read(), "html.parser")
 
 		# Get Name
@@ -143,11 +139,66 @@ def parseItem( oneItem ):
 		#so I need to hop over to the page that displays the highest resolution image and grab the link to it from there.
 		#KHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN!!
 
-		highres_page = urlopen ("http://plagmada.org/gallery/{0}&g2_imageViewsIndex=1".format(main_g2_itemId[0]))
+		highres_page = urlopen_with_retry ("http://plagmada.org/gallery/{0}&g2_imageViewsIndex=1".format(main_g2_itemId[0]))
 		highresSoup = BeautifulSoup(highres_page.read(), "html.parser")
 		# And then we'll grab the image...	
 
 		print("---//---")
+
+def retry(ExceptionToCheck, tries=4, delay=3, backoff=2, logger=None):
+	"""Retry calling the decorated function using an exponential backoff.
+
+	http://www.saltycrane.com/blog/2009/11/trying-out-retry-decorator-python/
+	 original from: http://wiki.python.org/moin/PythonDecoratorLibrary#Retry
+
+	 :param ExceptionToCheck: the exception to check. may be a tuple of exceptions to check
+	 :type ExceptionToCheck: Exception or tuple
+	 :param tries: number of times to try (not retry) before giving up
+	 :type tries: int
+	 :param delay: initial delay between retries in seconds
+	 :type delay: int
+	 :param backoff: backoff multiplier e.g. value of 2 will double the delay each retry
+	 :type backoff: int
+	 :param logger: logger to use. If None, print
+	 :type logger: logging.Logger instance
+	 """
+
+	def deco_retry(f):
+
+		@wraps(f)
+		def f_retry(*args, **kwargs):
+			mtries, mdelay = tries, delay
+			while mtries > 1:
+				try:
+					return f(*args, **kwargs)
+				except ExceptionToCheck as e:
+					msg = str(e) + " - Retrying in %d seconds..." % (mdelay)
+					if logger:
+						logger.warning(msg)
+					else:
+						print(msg)
+					time.sleep(mdelay)
+					mtries -= 1
+					mdelay *= backoff
+			try:
+				return f(*args, **kwargs)
+			except HTTPError as e:
+				msg = str(e) + " - persists after multiple retries.  Bypassing link: " + str(args[0])
+			return f(*args, **kwargs)
+
+		return f_retry  # true decorator
+
+	return deco_retry
+
+knownExceptions = (HTTPError, TimeoutError, ConnectionResetError) 
+@retry(knownExceptions, tries=4, delay=3, backoff=2)
+def urlopen_with_retry(URL):
+    return urlopen(URL)
+
+# Initiating the Scrape from the top level PlaGMaDA album page
+
+PlaGMaDA = urlopen_with_retry("http://plagmada.org/gallery/main.php")
+mainSoup = BeautifulSoup(PlaGMaDA.read(), "html.parser")
 
 parseAlbum( mainSoup )
 	
