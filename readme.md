@@ -1,5 +1,7 @@
 This repository contains the Omeka and CollectiveAccess source and surrounding configurations used by the plagmada.org archives.
 
+PLEASE NOTE: This is a work in progress! Check out the Issues to see what we're working on.
+
 Omeka is [here on GitHub](https://github.com/omeka/Omeka)
 
 CollectiveAccess's Providence is [here on GitHub](https://github.com/collectiveaccess/providence)
